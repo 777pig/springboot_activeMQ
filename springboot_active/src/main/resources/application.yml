@@ -3,6 +3,10 @@ server:
  servlet:
   context-path: /active
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .html
 #热部署配置
   devtools:
    restart:
@@ -13,7 +17,7 @@ spring:
 #指定热部署的页面
     exclude: static/**
    livereload:
-    enabled: false
+    enabled: true
 
 #消息队列配置
   activemq:

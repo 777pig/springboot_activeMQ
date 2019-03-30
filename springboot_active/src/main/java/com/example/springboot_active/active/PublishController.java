@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.jms.Queue;
 import javax.jms.Topic;
@@ -28,12 +30,11 @@ public class PublishController {
 
     @RequestMapping("/queue")
     public String queue(){
-
         for (int i = 0; i < 10 ; i++){
             jms.convertAndSend(queue, "queue"+i);
         }
-
-        return "queue 发送成功";
+        System.out.println("测试2");
+        return "index";
     }
 
     /**
