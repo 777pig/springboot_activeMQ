@@ -1,0 +1,27 @@
+server:
+  port: 8082
+ servlet:
+  context-path: /active
+spring:
+#热部署配置
+  devtools:
+   restart:
+#热部署页面自动刷新
+    enabled: true
+#热部署扫描支持的目录
+    additional-paths: src/main/java
+#指定热部署的页面
+    exclude: static/**
+   livereload:
+    enabled: false
+
+#消息队列配置
+  activemq:
+    user: admin
+    password: admin
+    broker-url: tcp://192.168.43.23:61616
+    pool:
+      enabled: true
+      max-connections: 10
+queueName: publish.queue
+topicName: publish.topic
