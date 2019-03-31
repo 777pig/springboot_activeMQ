@@ -1,5 +1,6 @@
 package com.example.springboot_active.active;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -8,8 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jms.Queue;
-import javax.jms.Topic;
+import javax.jms.*;
 
 /**
  * @author: elvin
@@ -29,9 +29,11 @@ public class PublishController {
     private Topic topic;
 
     @RequestMapping("/queue")
-    public String queue(){
+    public String queue() throws JMSException {
+
         for (int i = 0; i < 10 ; i++){
             jms.convertAndSend(queue, "queue"+i);
+            Destination de=jms.getDefaultDestination();
         }
         System.out.println("测试2");
         return "index";
