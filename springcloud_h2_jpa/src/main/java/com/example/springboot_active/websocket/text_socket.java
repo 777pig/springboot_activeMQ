@@ -65,13 +65,18 @@ public class text_socket {
 
     public void sendAllMessage(String message) throws IOException {
             Iterator<text_socket> list=webSocketSet.iterator();
+            String Tname=this.platformType;
 
             //遍历每一个去发送消息
             while(list.hasNext()){
-                text_socket c=list.next();
-                c.session.getBasicRemote().sendText(message);
 
-                System.out.println("群发消息 之一-"+c.platformType);
+                text_socket c=list.next();
+                 //不是当前用户时推数据
+//                if(!c.platformType.equals(Tname)){
+                    c.session.getBasicRemote().sendText(message);
+                    System.out.println("群发消息 之一-"+c.platformType);
+//                }
+
             }
     }
     public static synchronized int getOnlineCount() {

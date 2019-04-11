@@ -6,9 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 生产者，生产数据
- * ws://localhost:8080/websocket/1/1
- * socket工具
- * 队列形式发送数据
+ * socket工具 队列形式发送数据
+ * localhost:8081/active/index
  */
 @SpringBootApplication
 public class SpringbootActiveApplication {

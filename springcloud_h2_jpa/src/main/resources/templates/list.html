@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<html lang="en">
+
+<head>
+    <script src="jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>列表页5</title>
+</head>
+
+<body>
+<h1 th:text="${loginuser}"></h1>
+
+<ul id="datalist">
+    <li> 测试的数据</li>
+</ul>
+
+<input type="text" id="input" width="400px" height="100px" style="border:1px solid red;">
+
+<button onclick="toSend( $('#input').val() );">发送</button>
+<br>
+<button onclick="close2();">关闭</button>
+
+
+</body>
+<script th:inline="javascript">
+    var loginuser = /*[[${loginuser}]]*/null ;
+    var num=1;
+
+    // var loginuser='1';
+    console.info( loginuser );
+
+    var ws = new WebSocket("ws://localhost:8081/active/websocket/"+loginuser+"/1");
+
+        function toSend(str){
+            ws.send(str);
+            alert("数据发送..."+str);
+        console.info("发送数据"+str);
+    }
+        function writerToPage(data){
+            console.info("原始数据" );
+            data=data.data;
+            console.info("页面写数据"+data);
+            $("ul>li:last").after( "<li name='a'"+ (num++)+">"+data+"</li>" );
+        }
+
+        function close2(){
+            ws.close(403,"测试")
+            console.info("&& 关闭");
+        }
+    WebSocketTest();
+
+    /** 默认开启  接受数据用的组件
+     * @constructor
+     */
+    function WebSocketTest()
+    {
+        console.info("websocket服务初始化");
+
+        ws.onOpen = function()
+        {
+            // Web Socket 已连接上，使用 send() 方法发送数据
+            ws.send("初次");
+            alert("数据发送..."+str);
+        };
+
+        ws.onmessage=writerToPage;
+
+
+        // if ("WebSocket" in window)
+        // {
+        //     alert("您的浏览器支持 WebSocket!");
+        //     // 打开一个 web socket
+        //     ws.onOpen = function()
+        //     {
+        //         // Web Socket 已连接上，使用 send() 方法发送数据
+        //         ws.send("发送数据");
+        //         alert("数据发送中...");
+        //     };
+        //
+        //     ws.onmessage = function (evt)
+        //     {
+        //         var received_msg = evt.data;
+        //
+        //         writerToPage(received_msg);
+        //         alert("数据已接收...");
+        //     };
+        //
+        //     ws.onclose = function()
+        //     {
+        //         // 关闭 websocket
+        //         alert("连接已关闭...");
+        //     };
+        // }
+        // else
+        // {
+        //     alert("您的浏览器不支持 WebSocket!");
+        // }
+    }
+</script>
+</html>
