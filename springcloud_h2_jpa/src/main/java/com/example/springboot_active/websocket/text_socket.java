@@ -24,11 +24,11 @@ public class text_socket {
      public Session session;
     // 接收参数中的用户ID
      public Long userId;
-    // 接收用户中的平台类型
-     public Integer platformType;
+    // 接收用户的名字
+     public String platformType;
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("platformType") Integer platformType, @PathParam("userId") Long userId)
+    public void onOpen(Session session, @PathParam("platformType") String platformType, @PathParam("userId") Long userId)
     {
         this.session = session;
         this.userId = userId;
@@ -39,7 +39,7 @@ public class text_socket {
         // 在线数加1
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount() + "  userId==== " + userId + "  platformType==== " + platformType);
        try {
-               sendMessage("连接成功");
+           sendAllMessage(platformType+" 进入聊天室");
            }
          catch (IOException e)
          {
@@ -48,8 +48,11 @@ public class text_socket {
          }
 
     @OnMessage//接受客户数据，
-    public void text(String message, Session session){
-         System.out.println("来自客户端的消息:" + message);
+    public void text(String message, Session session) throws IOException {
+
+         System.out.println("来自客户端的消息|:" + message);
+        message="<font color='red'>"+platformType+"</font>:"+message;
+        sendAllMessage(message);
     }
     @OnClose
     public void OnClose(){
@@ -67,6 +70,8 @@ public class text_socket {
             while(list.hasNext()){
                 text_socket c=list.next();
                 c.session.getBasicRemote().sendText(message);
+
+                System.out.println("群发消息 之一-"+c.platformType);
             }
     }
     public static synchronized int getOnlineCount() {
